@@ -1,4 +1,4 @@
-FROM alpine:latest AS build
+FROM alpine:edge AS build
 RUN adduser -S -D -H -h /xmrig xmrig
 RUN apk --no-cache add \
         git \
@@ -7,8 +7,7 @@ RUN apk --no-cache add \
         libuv-static \
         openssl-dev \
         build-base && \
-    apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing \
-        hwloc-dev && \
+    apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing hwloc-dev && \
     git clone https://github.com/xmrig/xmrig && \
     cd xmrig && \
     LATEST=$(git describe --tags) && \
@@ -20,9 +19,7 @@ RUN apk --no-cache add \
     make
 
 FROM alpine:latest
-RUN adduser -S -D -H -h /xmrig xmrig && \
-    apk add --no-cache -X http://dl-cdn.alpinelinux.org/alpine/edge/testing hwloc-dev && \
-    rm -rf /var/lib/apt/lists/*
+RUN adduser -S -D -H -h /xmrig xmrig
 USER xmrig
 WORKDIR /xmrig/
 COPY --from=build /xmrig/build/xmrig /xmrig/xmrig
