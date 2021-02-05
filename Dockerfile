@@ -7,7 +7,7 @@ RUN apk --no-cache add make git make cmake libstdc++ gcc g++ automake libtool au
     mkdir build && cd build && \
     sed -i -e "s/kMinimumDonateLevel = 1/kMinimumDonateLevel = 0/g" ../src/donate.h && \
     sed -i -e "s/kDefaultDonateLevel = 1/kDefaultDonateLevel = 0/g" ../src/donate.h && \
-    cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=ON && \
+    cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_STATIC=ON -DXMRIG_DEPS=scripts/deps && \
     make -j$(nproc)
 
 FROM alpine:latest
